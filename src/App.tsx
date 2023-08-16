@@ -31,8 +31,9 @@ function App() {
       textColor: '#FFFFFF',
     });
     const resultId = await uploadToImgur(canvas);
+    const url = `https://i.imgur.com/${resultId}.png`;
     // eslint-disable-next-line no-console
-    console.log({ resultId });
+    console.log({ resultId, url });
   }, [categories]);
 
   return (
