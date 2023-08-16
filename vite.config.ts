@@ -5,8 +5,6 @@ import { defineConfig, loadEnv, type UserConfigExport } from 'vite';
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  // eslint-disable-next-line no-console
-  console.log(env);
   const base: UserConfigExport = {
     plugins: [react()],
     base: env.BASE_DIR || '/',
