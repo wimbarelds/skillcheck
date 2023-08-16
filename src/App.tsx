@@ -38,7 +38,7 @@ function App() {
   return (
     <form className="container mx-auto flex flex-col px-2 pb-4">
       <header className="flex gap-1">
-        <h1 className="my-2 flex-1 bg-[url('./check_box_white.svg')] bg-[length:10_10] bg-left bg-no-repeat pl-14 text-3xl font-bold">
+        <h1 className="my-2 flex-1 bg-[url('/check_box_white.svg')] bg-[length:10_10] bg-left bg-no-repeat pl-14 text-3xl font-bold">
           Skillcheck
         </h1>
         <button
