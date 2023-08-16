@@ -1,0 +1,36 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:0-18",
+  // "postCreateCommand": "npm ci"
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "ms-vscode-remote.vscode-remote-extensionpack",
+        "alexdima.copy-relative-path",
+        "esbenp.prettier-vscode",
+        "styled-components.vscode-styled-components",
+        "rohit-gohri.format-code-action",
+        "mrorz.language-gettext",
+        "ms-azuretools.vscode-docker",
+        "eamodio.gitlens",
+        "sanity-io.vscode-sanity",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "settings": {
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.enablePromptUseWorkspaceTsdk": false,
+        "editor.rulers": [100],
+        "prettier.prettierPath": "./node_modules/prettier",
+        "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll"],
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": false,
+        "editor.detectIndentation": false,
+        "editor.indentSize": "tabSize",
+        "editor.tabSize": 2,
+        "files.associations": {
+          "*.css": "tailwindcss"
+        }
+      }
+    }
+  }
+}
