@@ -55,7 +55,7 @@ export function Category({
             className="group relative mx-1 rounded-b-full bg-primary-950 bg-opacity-70 p-1"
           >
             <img
-              src={`/${ratingIcons[rating]}.svg`}
+              src={`./${ratingIcons[rating]}.svg`}
               alt={rating}
               className="block h-4 w-4 invert"
             />
