@@ -3,8 +3,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import tailwindConfig from '../tailwind.config';
 import { Category } from './components/Category';
 import { baseSkills } from './data/base-skills';
+import { compressCategories } from './data/data-tools';
 import { formatResult } from './data/format-result';
 import { initSkills } from './data/init-skills';
+import { encodeDataInCanvas } from './image-util/encode-data';
 import { drawResult } from './image-util/generate-image';
 import { uploadToImgur } from './image-util/imgur-upload';
 
@@ -29,6 +31,15 @@ function App() {
       backgroundColor: theme.extend.colors.primary[900],
       cardColor: theme.extend.colors.primary[950],
       textColor: '#FFFFFF',
+    });
+    // Convert expert/dont know etc into numbers to rduce data length
+    const compressedData = compressCategories(categories);
+    encodeDataInCanvas(canvas, compressedData, {
+      bottom: '0px',
+      left: '0px',
+      width: '100%',
+      height: '16px',
+      noise: 'medium',
     });
     const resultId = await uploadToImgur(canvas);
     const url = `https://i.imgur.com/${resultId}.png`;
