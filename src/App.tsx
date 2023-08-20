@@ -3,14 +3,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import tailwindConfig from '../tailwind.config';
 import { Category } from './components/Category';
 import { baseSkills } from './data/base-skills';
-import { compressCategories } from './data/data-tools';
+import { compressCategories, decompressCategories } from './data/data-tools';
 import { formatResult } from './data/format-result';
 import { initSkills } from './data/init-skills';
 import { decodeDataFromImage, encodeDataInCanvas } from './image-util/encode-data';
 import { drawResult } from './image-util/generate-image';
 import { createReferenceCanvas } from './image-util/reference-helper';
 import { loadFromImgur, saveToImgur } from './image-util/imgur-helpers';
-import { SkillCategory } from './types/DataTypes';
+import { CompressedSkillCategory, SkillCategory } from './types/DataTypes';
 
 const { theme } = tailwindConfig;
 const localStorageKey = 'skillcheck-cache';
@@ -58,12 +58,12 @@ function App() {
       image.height,
       theme.extend.colors.primary['900'],
     );
-    const categories = await decodeDataFromImage<SkillCategory[]>(
+    const compressedCategories = await decodeDataFromImage<CompressedSkillCategory[]>(
       image,
       referenceCanvas,
       encodingArea,
     );
-    setCategories(categories);
+    setCategories(decompressCategories(compressedCategories));
   }, []);
 
   return (

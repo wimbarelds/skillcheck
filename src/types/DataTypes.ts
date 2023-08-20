@@ -10,6 +10,15 @@ export interface SkillCategory {
   skills: Skill[];
 }
 
+export interface CompressedSkill {
+  name: string;
+  rating: number | null;
+}
+export interface CompressedSkillCategory {
+  name: string;
+  skills: CompressedSkill[];
+}
+
 export interface BaseCategory {
   name: string;
   skills: string[];
