@@ -68,6 +68,8 @@ module.exports = {
     'no-console': 'error',
     'react/no-unused-prop-types': 'off',
     'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
+    'no-restricted-syntax': 'off',
+    'prefer-destructuring': ['error', { enforceForRenamedProperties: false }],
   },
   overrides: [
     {

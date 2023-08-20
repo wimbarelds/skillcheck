@@ -12,7 +12,7 @@ class UploadError extends Error {
   }
 }
 
-export async function uploadToImgur(canvas: HTMLCanvasElement): Promise<string> {
+export async function saveToImgur(canvas: HTMLCanvasElement): Promise<string> {
   const formdata = new FormData();
   formdata.append('type', 'base64');
   formdata.append('image', canvasToBase64(canvas));
@@ -32,4 +32,19 @@ export async function uploadToImgur(canvas: HTMLCanvasElement): Promise<string> 
     response,
     json: await response.json(),
   });
+}
+
+export async function loadFromImgur(id: string): Promise<HTMLCanvasElement> {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  if (!context) throw new Error('Unable to load from imgur, failed to read context from canvas.');
+
+  const response = await fetch(`https://i.imgur.com/${id}.png`);
+  const imageBlob = await response.blob();
+  const imageBitmap = await createImageBitmap(imageBlob);
+  canvas.width = imageBitmap.width;
+  canvas.height = imageBitmap.height;
+  context.drawImage(imageBitmap, 0, 0);
+
+  return canvas;
 }
