@@ -11,6 +11,8 @@ import { drawResult } from './image-util/generate-image';
 import { createReferenceCanvas } from './image-util/reference-helper';
 import { loadFromImgur, saveToImgur } from './image-util/imgur-helpers';
 import { CompressedSkillCategory, SkillCategory } from './types/DataTypes';
+import { ModalOutlet, ModalProvider, useShowModal } from './hooks/modal';
+import { Header } from './components/Header';
 
 const { theme } = tailwindConfig;
 const localStorageKey = 'skillcheck-cache';
@@ -44,15 +46,14 @@ function App() {
     // Convert expert/dont know etc into numbers to rduce data length
     const compressedData = compressCategories(categories);
     await encodeDataInCanvas(canvas, compressedData, encodingArea);
-    const resultId = await saveToImgur(canvas);
+    const resultId = process.env.MOCK_UPLOAD_RESULTID || (await saveToImgur(canvas));
     const url = `https://i.imgur.com/${resultId}.png`;
 
     console.log({ resultId, url });
   }, [categories]);
 
-  const doImport = useCallback(async () => {
-    const id: string = prompt('imgur') ?? '';
-    const image = await loadFromImgur(id);
+  const doImport = useCallback(async (imgurId: string) => {
+    const image = await loadFromImgur(imgurId);
     const referenceCanvas = createReferenceCanvas(
       image.width,
       image.height,
@@ -67,34 +68,19 @@ function App() {
   }, []);
 
   return (
-    <form className="container mx-auto flex flex-col px-2 pb-4">
-      <header className="flex gap-1">
-        <h1 className="my-2 flex-1 bg-[url('/check_box_white.svg')] bg-[length:10_10] bg-left bg-no-repeat pl-14 text-3xl font-bold">
-          Skillcheck
-        </h1>
-        <button
-          type="button"
-          className="my-2 rounded-md bg-primary-600 px-4 transition-colors hover:bg-primary-500"
-          onClick={doImport}
-        >
-          Import
-        </button>
-        <button
-          type="button"
-          className="my-2 rounded-md bg-primary-600 px-4 transition-colors hover:bg-primary-500"
-          onClick={createExport}
-        >
-          Export
-        </button>
-      </header>
-      <main>
-        <div className="columns-md gap-4">
-          {categories.map((category) => (
-            <Category key={category.name} category={category} setCategories={setCategories} />
-          ))}
-        </div>
-      </main>
-    </form>
+    <ModalProvider>
+      <form className="container mx-auto flex flex-col px-2 pb-4">
+        <Header importFn={doImport} exportFn={createExport} />
+        <main>
+          <div className="columns-md gap-4">
+            {categories.map((category) => (
+              <Category key={category.name} category={category} setCategories={setCategories} />
+            ))}
+          </div>
+        </main>
+      </form>
+      <ModalOutlet />
+    </ModalProvider>
   );
 }
 
